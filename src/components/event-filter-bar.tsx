@@ -19,6 +19,7 @@ interface EventFilterBarProps {
   onCategoryChange: (category: string) => void;
   onSearchChange: (query: string) => void;
   onClearFilters: () => void;
+  showSearch?: boolean;
 }
 
 export default function EventFilterBar({
@@ -27,6 +28,7 @@ export default function EventFilterBar({
   onCategoryChange,
   onSearchChange,
   onClearFilters,
+  showSearch = false,
 }: EventFilterBarProps) {
   const hasActiveFilters =
     selectedCategory !== "All Events" || searchQuery !== "";
@@ -46,32 +48,35 @@ export default function EventFilterBar({
         <Box>
           <Stack spacing={3}>
             {/* Search Bar */}
-            {/* <TextField
-            fullWidth
-            placeholder="Search events by name or description..."
-            value={searchQuery}
-            onChange={(e) => onSearchChange(e.target.value)}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon />
-                </InputAdornment>
-              ),
-              endAdornment: searchQuery && (
-                <InputAdornment position="end">
-                  <ClearIcon
-                    sx={{ cursor: "pointer", color: "text.secondary" }}
-                    onClick={() => onSearchChange("")}
-                  />
-                </InputAdornment>
-              ),
-            }}
-            sx={{
-              "& .MuiOutlinedInput-root": {
-                bgcolor: "background.default",
-              },
-            }}
-          /> */}
+            {showSearch && (
+              <TextField
+                fullWidth
+                autoFocus
+                placeholder="Search events by name or description..."
+                value={searchQuery}
+                onChange={(e) => onSearchChange(e.target.value)}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchIcon />
+                    </InputAdornment>
+                  ),
+                  endAdornment: searchQuery && (
+                    <InputAdornment position="end">
+                      <ClearIcon
+                        sx={{ cursor: "pointer", color: "text.secondary" }}
+                        onClick={() => onSearchChange("")}
+                      />
+                    </InputAdornment>
+                  ),
+                }}
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    bgcolor: "background.default",
+                  },
+                }}
+              />
+            )}
 
             {/* Category Filters */}
             <Box>

@@ -1,5 +1,5 @@
 "use client";
-import { useState, useMemo } from "react";
+import { useRouter } from "next/navigation";
 import { Box } from "@mui/material";
 import HeroSection from "@/components/hero-section";
 import EventList from "@/components/event-list";
@@ -7,31 +7,18 @@ import EventFilterBar from "@/components/event-filter-bar";
 import { DUMMY_EVENTS } from "@/constants/event-constant";
 
 export default function Home() {
-  const [selectedCategory, setSelectedCategory] = useState("All Events");
-  const [searchQuery, setSearchQuery] = useState("");
-  const products = DUMMY_EVENTS;
+  const router = useRouter();
 
-  const filteredEvents = useMemo(() => {
-    let filtered = products;
-    if (selectedCategory !== "All Events") {
-      filtered = filtered.filter(
-        (event) => event.category === selectedCategory,
-      );
+  const handleSearchChange = (query: string) => {
+    if (query.trim()) {
+      router.push(`/events?q=${encodeURIComponent(query.trim())}`);
     }
-    if (searchQuery.trim()) {
-      const query = searchQuery.toLowerCase();
-      filtered = filtered.filter(
-        (event) =>
-          event.name.toLowerCase().includes(query) ||
-          event.description.toLowerCase().includes(query),
-      );
-    }
-    return filtered;
-  }, [products, selectedCategory, searchQuery]);
+  };
 
-  const handleClearFilters = () => {
-    setSelectedCategory("All Events");
-    setSearchQuery("");
+  const handleCategoryChange = (category: string) => {
+    if (category !== "All Events") {
+      router.push(`/events?category=${encodeURIComponent(category)}`);
+    }
   };
 
   return (
@@ -46,23 +33,21 @@ export default function Home() {
       <HeroSection
         title="Discover Amazing Events"
         subtitle="Find and book tickets for concerts, sports, festivals, and more"
-        onSearchChange={setSearchQuery}
-        searchQuery={searchQuery}
+        onSearchChange={handleSearchChange}
+        searchQuery=""
         imageUrl="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80"
       />
 
       <EventFilterBar
-        selectedCategory={selectedCategory}
-        searchQuery={searchQuery}
-        onCategoryChange={setSelectedCategory}
-        onSearchChange={setSearchQuery}
-        onClearFilters={handleClearFilters}
+        selectedCategory="All Events"
+        searchQuery=""
+        onCategoryChange={handleCategoryChange}
+        onSearchChange={handleSearchChange}
+        onClearFilters={() => {}}
       />
 
       <EventList
-        products={filteredEvents}
-        searchQuery={searchQuery}
-        selectedCategory={selectedCategory}
+        products={DUMMY_EVENTS}
         maxItems={8}
         showMoreHref="/events"
       />

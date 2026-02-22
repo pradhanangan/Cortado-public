@@ -1,5 +1,6 @@
 "use client";
 import { useState, useMemo, useEffect } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import { Box, Button, Container, Typography } from "@mui/material";
 import EventList from "@/components/event-list";
 import EventFilterBar from "@/components/event-filter-bar";
@@ -8,14 +9,31 @@ import { DUMMY_EVENTS } from "@/constants/event-constant";
 const PAGE_SIZE = 16;
 
 export default function EventsPage() {
-  const [selectedCategory, setSelectedCategory] = useState("All Events");
-  const [searchQuery, setSearchQuery] = useState("");
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  const [selectedCategory, setSelectedCategory] = useState(
+    () => searchParams.get("category") || "All Events",
+  );
+  const [searchQuery, setSearchQuery] = useState(
+    () => searchParams.get("q") || "",
+  );
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const products = DUMMY_EVENTS;
 
   // Reset visible count whenever filters change
   useEffect(() => {
     setVisibleCount(PAGE_SIZE);
+  }, [selectedCategory, searchQuery]);
+
+  // Sync URL params when filters change
+  useEffect(() => {
+    const params = new URLSearchParams();
+    if (searchQuery.trim()) params.set("q", searchQuery.trim());
+    if (selectedCategory !== "All Events")
+      params.set("category", selectedCategory);
+    const qs = params.toString();
+    router.replace(qs ? `/events?${qs}` : "/events", { scroll: false });
   }, [selectedCategory, searchQuery]);
 
   const filteredEvents = useMemo(() => {
@@ -61,6 +79,7 @@ export default function EventsPage() {
         onCategoryChange={setSelectedCategory}
         onSearchChange={setSearchQuery}
         onClearFilters={handleClearFilters}
+        showSearch
       />
       <EventList
         products={visibleEvents}
