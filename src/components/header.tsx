@@ -1,8 +1,9 @@
 "use client";
-import { AppBar, Box, Container, Toolbar, Typography } from "@mui/material";
+import { AppBar, Container, Toolbar, Typography, Box } from "@mui/material";
 import LocalCafeIcon from "@mui/icons-material/LocalCafe";
 import { use, useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -41,13 +42,12 @@ export default function Header() {
             disableGutters
           >
             <Link href="/" style={{ display: "flex", alignItems: "center" }}>
-              <Box
-                component="img"
-                sx={{
-                  height: 40, // Adjust as needed
-                }}
-                alt="My Logo"
-                src={"/cortado-logo.png"}
+              <Image
+                src="/cortado-logo.png"
+                height={40}
+                width={160}
+                alt="Cortado"
+                style={{ objectFit: "contain" }}
               />
             </Link>
             {/* <LocalCafeIcon
