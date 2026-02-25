@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { OrderService } from "@/services/order-service";
-import { PaymentStatus } from "@/types/orders-module";
+import { PaymentStatus } from "@/types/order-type";
 import { decryptTimestamp } from "@/utils/date-utils";
 
 interface PaymentCompleteParams {
@@ -64,7 +64,7 @@ export function usePaymentComplete() {
           try {
             await OrderService.markOrderAsPaid(
               params.orderId!,
-              params.paymentIntentId!
+              params.paymentIntentId!,
             );
           } catch (error) {
             // Log error but do not set error message to user

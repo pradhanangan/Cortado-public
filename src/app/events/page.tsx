@@ -1,5 +1,5 @@
 "use client";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Box, Button, Container, Typography } from "@mui/material";
 import EventList from "@/components/event-list";
@@ -8,7 +8,7 @@ import { DUMMY_EVENTS } from "@/constants/event-constant";
 
 const PAGE_SIZE = 16;
 
-export default function EventsPage() {
+function EventsPageContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -82,6 +82,7 @@ export default function EventsPage() {
         showSearch
       />
       <EventList
+        title=""
         products={visibleEvents}
         searchQuery={searchQuery}
         selectedCategory={selectedCategory}
@@ -105,5 +106,13 @@ export default function EventsPage() {
         </Box>
       )}
     </Box>
+  );
+}
+
+export default function EventsPage() {
+  return (
+    <Suspense>
+      <EventsPageContent />
+    </Suspense>
   );
 }

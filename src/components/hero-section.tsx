@@ -27,7 +27,7 @@ export default function HeroSection({
   searchQuery = "",
 }: HeroSectionProps) {
   return (
-    <Container maxWidth={"xl"}>
+    <Container maxWidth={"xl"} sx={{ py: 2 }}>
       <Box
         sx={{
           position: "relative",

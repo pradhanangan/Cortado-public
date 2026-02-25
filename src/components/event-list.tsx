@@ -1,17 +1,13 @@
 "use client";
-import {
-  Box,
-  Button,
-  Container,
-  Typography,
-  CircularProgress,
-} from "@mui/material";
+import { Box, Container, Typography, CircularProgress } from "@mui/material";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import Grid from "@mui/material/Grid2";
 import Link from "next/link";
 import { Product } from "@/types/product-type";
 import EventCard from "./event-card";
 
 interface EventListProps {
+  title: string;
   products: Product[];
   loading?: boolean;
   searchQuery?: string;
@@ -21,6 +17,7 @@ interface EventListProps {
 }
 
 export default function EventList({
+  title,
   products,
   loading = false,
   searchQuery = "",
@@ -61,7 +58,7 @@ export default function EventList({
   }
 
   return (
-    <Container maxWidth={"xl"}>
+    <Container maxWidth={"xl"} sx={{ py: 2 }}>
       <Box
         sx={{
           mb: 3,
@@ -70,16 +67,27 @@ export default function EventList({
           alignItems: "center",
         }}
       >
-        <Typography variant="h4">
-          {selectedCategory === "All Events"
-            ? "Upcoming Events"
-            : selectedCategory}
-        </Typography>
-        <Typography variant="body1" color="text.secondary">
-          {hasMore
-            ? `Showing ${visibleProducts.length} of ${products.length} events`
-            : `${products.length} ${products.length === 1 ? "event" : "events"}`}
-        </Typography>
+        <Typography variant="h4">{title}</Typography>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2, ml: "auto" }}>
+          {hasMore && showMoreHref && (
+            <Box
+              component={Link}
+              href={showMoreHref}
+              sx={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "4px",
+                fontSize: "0.85rem",
+                color: "inherit",
+                textDecoration: "none",
+                "&:hover": { textDecoration: "underline" },
+              }}
+            >
+              More events
+              <ArrowForwardIosIcon sx={{ fontSize: 13 }} />
+            </Box>
+          )}
+        </Box>
       </Box>
       <Grid container spacing={3}>
         {visibleProducts.map((product) => (
@@ -88,25 +96,6 @@ export default function EventList({
           </Grid>
         ))}
       </Grid>
-      {hasMore && showMoreHref && (
-        <Box sx={{ mt: 5, display: "flex", justifyContent: "center" }}>
-          <Button
-            component={Link}
-            href={showMoreHref}
-            variant="contained"
-            size="large"
-            sx={{
-              px: 6,
-              py: 1.5,
-              borderRadius: 3,
-              fontWeight: 600,
-              fontSize: "1rem",
-            }}
-          >
-            Show More
-          </Button>
-        </Box>
-      )}
     </Container>
   );
 }

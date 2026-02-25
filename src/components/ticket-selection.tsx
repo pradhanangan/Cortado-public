@@ -17,10 +17,10 @@ import IconButton from "@mui/material/IconButton";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 
-import { Product } from "@/types/products-module";
+import { Product } from "@/types/product-type";
 import { StripeCheckout } from "./stripe-checkout";
 import { SimpleCheckout } from "./simple-checkout";
-import { OrderItemDto } from "@/types/orders-module";
+import { OrderItemDto } from "@/types/order-type";
 
 interface TicketSelectionProps {
   product: Product | null;
@@ -146,7 +146,7 @@ export default function TicketSelection({ product }: TicketSelectionProps) {
                     onClick={() =>
                       handleQuantityChange(
                         item.id,
-                        Math.max(0, (quantities[item.id] || 0) - 1)
+                        Math.max(0, (quantities[item.id] || 0) - 1),
                       )
                     }
                     disabled={(quantities[item.id] || 0) <= 0}
@@ -166,7 +166,7 @@ export default function TicketSelection({ product }: TicketSelectionProps) {
                     onChange={(e) =>
                       handleQuantityChange(
                         item.id,
-                        Number.parseInt(e.target.value) || 0
+                        Number.parseInt(e.target.value) || 0,
                       )
                     }
                     sx={{ width: 60 }}
@@ -176,7 +176,7 @@ export default function TicketSelection({ product }: TicketSelectionProps) {
                     onClick={() =>
                       handleQuantityChange(
                         item.id,
-                        Math.min(10, (quantities[item.id] || 0) + 1)
+                        Math.min(10, (quantities[item.id] || 0) + 1),
                       )
                     }
                     disabled={(quantities[item.id] || 0) >= 10}

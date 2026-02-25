@@ -1,6 +1,6 @@
 import { Box, Container, Stack, Typography, useTheme } from "@mui/material";
 import { CheckCircle, Cancel, Info } from "@mui/icons-material";
-import { PaymentStatus } from "@/types/orders-module";
+import { PaymentStatus } from "@/types/order-type";
 import React from "react";
 
 const STATUS_CONTENT_MAP = (theme: any) => ({

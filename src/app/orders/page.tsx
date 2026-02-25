@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { Box, Container } from "@mui/material";
 
@@ -7,7 +7,7 @@ import ProductDetail from "@/components/product-detail";
 import TicketSelection from "@/components/ticket-selection";
 import OrderError from "@/components/order-error";
 import { ProductService } from "@/services/product-service";
-import { Product } from "@/types/products-module";
+import { Product } from "@/types/product-type";
 import { PRODUCT_ERRORS } from "@/constants/product-constant";
 
 const ERROR_MESSAGES = {
@@ -17,7 +17,7 @@ const ERROR_MESSAGES = {
   DEFAULT: "Oops! Something went wrong. Please try again.",
 };
 
-export default function OrdersPage() {
+function OrdersPageContent() {
   const searchParams = useSearchParams();
   const [product, setProduct] = useState<Product | null>(null);
   const [errorMsg, setErrorMsg] = useState("");
@@ -60,5 +60,13 @@ export default function OrdersPage() {
       )}
       {errorMsg && <OrderError message={errorMsg} />}
     </Box>
+  );
+}
+
+export default function OrdersPage() {
+  return (
+    <Suspense>
+      <OrdersPageContent />
+    </Suspense>
   );
 }
