@@ -21,20 +21,15 @@ export default function Header() {
         position="fixed"
         elevation={0}
         sx={{
-          // height: 64,
-          // minHeight: 64,
           justifyContent: "center",
           top: 0,
           zIndex: 1100,
           backgroundColor: scrolled ? "#fff" : "transparent",
-          // transition: "background-color 0.3s, box-shadow 0.3s",
-          // boxShadow: scrolled ? undefined : "none",
+          borderBottom: "1px solid",
+          borderColor: "divider",
         }}
       >
-        <Container
-          maxWidth={"xl"}
-          // sx={{ height: 1, display: "flex", alignItems: "center" }}
-        >
+        <Container maxWidth={"xl"}>
           <Toolbar
             sx={{
               minHeight: 80,

@@ -38,17 +38,18 @@ export default function Home() {
         imageUrl="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80"
       />
 
-      <EventFilterBar
+      {/* <EventFilterBar
         selectedCategory="All Events"
         searchQuery=""
         onCategoryChange={handleCategoryChange}
         onSearchChange={handleSearchChange}
         onClearFilters={() => {}}
-      />
+      /> */}
 
       <EventList
+        title="Featured"
         products={DUMMY_EVENTS}
-        maxItems={8}
+        maxItems={4}
         showMoreHref="/events"
       />
     </Box>
