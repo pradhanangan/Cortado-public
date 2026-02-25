@@ -43,7 +43,7 @@ export default function Header() {
           >
             <Link href="/" style={{ display: "flex", alignItems: "center" }}>
               <Image
-                src="/cortado-logo.png"
+                src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/cortado-logo.png`}
                 height={40}
                 width={160}
                 alt="Cortado"
